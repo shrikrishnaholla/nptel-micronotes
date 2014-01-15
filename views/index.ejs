@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NPTEL Micro Notes</title>
+    <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form action="success" method="POST">
+      <h3>Submit notes</h3>
+      <div class="form-group">
+        <input type="text" name="usn" placeholder="USN" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}"><br>
+        <div class="select-style">
+          <select name="subject">
+            <% for (var i=0; i < subjects.length; ++i) { %>
+              <option value="<%=subjects[i].course_id%>"><%=subjects[i].name%></option>
+            <% } %>
+          </select>
+        </div>
+        <input type="number" name="lec_no" placeholder="Lecture number" class="form-control"><br>
+        <input type="text" name="note_time" placeholder="Time of video for note" class="form-control" pattern="([0-9]{2}[:])?([0-9]{2}:[0-9]{2})"><br>
+        <div class="select-style">
+          <select name="note_type">
+            <option value="elaboration">Elaboration</option>
+            <option value="translation">Translation</option>
+            <option value="supportive_content">Supportive Content</option>
+          </select>
+        </div>
+        <input type="textarea" name="content" placeholder="Note Content" class="form-control"><br>
+        <input type="url" name="ext_links" placeholder="Reference Link" class="form-control"><br>
+      </div>
+	    <input type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
+	  </form>
+  </body>
+</html>
