@@ -21,10 +21,8 @@ exports.note_submit = function(req, res) {
 };
 
 exports.search = function(req, res) {
-	searchOpts = {};
-	if(req.query.usn)
-		searchOpts["usn"] = req.query.usn;
-	models.retrieve(searchOpts, function(err, notes) {
+	console.log(req.query);
+	models.retrieve(req.query, function(err, notes) {
 		if (err) {
 			res.end("No notes found for the requested user");
 		};
