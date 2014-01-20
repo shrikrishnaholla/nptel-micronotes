@@ -4,6 +4,20 @@
     <title>NPTEL Micro Notes</title>
     <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $('textarea').bind("enterKey",function(e){
+      e.preventDefault();
+      $('textarea').value = $('textarea').value + '\n';
+    });
+    $('textarea').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            e.preventDefault();
+            $(this).trigger("enterKey");
+        }
+    });
+    </script>
     <style type="text/css">
     label {
       font-weight: bold;
@@ -59,7 +73,7 @@
         </span>
         <label>Note Content</label>
         <span class="user-input">
-          <input required type="textarea" name="content" placeholder="Note Content" class="form-control"><br>
+          <textarea cols="48" rows="5" required id="notes" name="content" placeholder="Note Content" class="form-control"></textarea><br>
         <label>Reference Link</label>
         <span class="user-input">
           <input required type="url" name="ext_links" placeholder="http://example.com" class="form-control"><br>
