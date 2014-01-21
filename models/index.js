@@ -21,9 +21,33 @@ var MicroNoteSchema = new Schema({
 	note_time	: String,
 	note_type	: String,
 	content		: String,
-	ext_links	: String
+	ext_links	: String,
+	datetime    : String
 });
+function getDateTime() {
 
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
 var MicroNote = mongoose.model('MicroNotes', MicroNoteSchema);
 
 exports.create = function(entry, Callback) {
@@ -35,7 +59,7 @@ exports.create = function(entry, Callback) {
 	newnote.note_type = entry.note_type.toUpperCase();
 	newnote.content = entry.content;
 	newnote.ext_links = entry.ext_links.toUpperCase();
-
+    newnote.datetime = getDateTime();
 	newnote.save(Callback);
 };
 
