@@ -24,7 +24,7 @@ exports.search = function(req, res) {
     qryparams = {}
     for (param in req.query)
     {
-        if(typeof req.query[param] === 'string') {
+        if(typeof req.query[param] === 'string' && param !== 'content') {
             qryparams[param] = req.query[param].toUpperCase();
         }
         else {
