@@ -28,13 +28,13 @@ var MicroNote = mongoose.model('MicroNotes', MicroNoteSchema);
 
 exports.create = function(entry, Callback) {
 	var newnote = new MicroNote();
-	newnote.usn = entry.usn;
-	newnote.subject = entry.subject;
-	newnote.lec_no = entry.lec_no;
-	newnote.note_time = entry.note_time;
-	newnote.note_type = entry.note_type;
+	newnote.usn = entry.usn.toUpperCase();
+	newnote.subject = entry.subject.toUpperCase();
+	newnote.lec_no = entry.lec_no.toUpperCase();
+	newnote.note_time = entry.note_time.toUpperCase();
+	newnote.note_type = entry.note_type.toUpperCase();
 	newnote.content = entry.content;
-	newnote.ext_links = entry.ext_links;
+	newnote.ext_links = entry.ext_links.toUpperCase();
 
 	newnote.save(Callback);
 };
