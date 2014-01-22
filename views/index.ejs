@@ -4,12 +4,50 @@
     <title>NPTEL Micro Notes</title>
     <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $('textarea').bind("enterKey",function(e){
+      e.preventDefault();
+      $('textarea').value = $('textarea').value + '\n';
+    });
+    $('textarea').keyup(function(e){
+        if(e.keyCode == 13)
+        {
+            e.preventDefault();
+            $(this).trigger("enterKey");
+        }
+    });
+    </script>
+    <style type="text/css">
+    label {
+      font-weight: bold;
+      font-size: 20px;
+      margin-top: 10px;
+    }
+    .user-input {
+      padding-bottom: 20px;
+    }
+    p {
+      font-size: 32px;
+      width: 1000px;
+      font-weight: bold;
+    }
+    body {
+    	background : #eeeeee;
+    }
+    </style>
   </head>
   <body>
     <form action="success" method="POST">
-      <h3>Submit notes</h3>
+      <p class="page-">Submit notes</p>
       <div class="form-group">
-        <input type="text" name="usn" placeholder="USN" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}"><br>
+        <label>USN</label>
+        <span class="user-input">
+          <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}"><br>
+        </span>
+         
+        <label>Subject</label>
+        <span class="user-input">
         <div class="select-style">
           <select name="subject">
             <% for (var i=0; i < subjects.length; ++i) { %>
@@ -17,8 +55,17 @@
             <% } %>
           </select>
         </div>
-        <input type="number" name="lec_no" placeholder="Lecture number" class="form-control"><br>
-        <input type="text" name="note_time" placeholder="Time of video for note" class="form-control" pattern="([0-9]{2}[:])?([0-9]{2}:[0-9]{2})"><br>
+          </span>
+
+        <label>Lecture number</label>
+        <span class="user-input">
+          <input required type="number" name="lec_no" placeholder="Ex :  10" class="form-control"><br>
+        </span>
+        <label>Time</label>
+        <span class="user-input">
+          <input required type="text" name="note_time" placeholder="<hh :>  mm : ss" class="form-control" pattern="([0-9]{2}[:])?([0-9]{2}:[0-9]{2})"><br>
+        </span>
+        <label>Note Type</label>
         <div class="select-style">
           <select name="note_type">
             <option value="elaboration">Elaboration</option>
@@ -26,10 +73,17 @@
             <option value="supportive_content">Supportive Content</option>
           </select>
         </div>
-        <input type="textarea" name="content" placeholder="Note Content" class="form-control"><br>
-        <input type="url" name="ext_links" placeholder="Reference Link" class="form-control"><br>
+        </span>
+        <label>Note Content</label>
+        <span class="user-input">
+          <textarea cols="48" rows="5" required id="notes" name="content" placeholder="Note Content" class="form-control"></textarea><br>
+        <label>Reference Link</label>
+        <span class="user-input">
+          <input type="url" name="ext_links" placeholder="http://example.com" class="form-control"><br>
       </div>
-	    <input type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
-	  </form>
+	    <span class="user-input">
+        <input required type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
+	  </span>
+    </form>
   </body>
 </html>
