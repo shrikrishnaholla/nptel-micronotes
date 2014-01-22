@@ -21,10 +21,18 @@ exports.note_submit = function(req, res) {
 };
 
 exports.search = function(req, res) {
-	searchOpts = {};
-	if(req.query.usn)
-		searchOpts["usn"] = req.query.usn;
-	models.retrieve(searchOpts, function(err, notes) {
+    qryparams = {}
+    for (param in req.query)
+    {
+        if(typeof req.query[param] === 'string' && param !== 'content') {
+            qryparams[param] = req.query[param].toUpperCase();
+        }
+        else {
+            qryparams[param] = req.query[param];
+        }
+    }   
+	console.log(qryparams);
+	models.retrieve(qryparams, function(err, notes) {
 		if (err) {
 			res.end("No notes found for the requested user");
 		};
