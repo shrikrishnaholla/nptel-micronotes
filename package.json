@@ -6,6 +6,8 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "nodemailer":"0.6.0",
+    "mysql":"2.0.1",
     "express": "3.4.7",
     "ejs": "*",
     "mongoose": "~3.8.4"
