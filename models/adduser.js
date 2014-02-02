@@ -21,13 +21,11 @@ connection.query('USE nptel', function(err) {
     }
 });
 
-connection.query('CREATE TABLE IF NOT EXISTS users 
-    (USN varchar(11) NOT NULL, 
-    emailid varchar(50) NOT NULL, 
-    password varchar(100) NOT NULL,
-    name varchar(50) NOT NULL),
-    PRIMARY KEY (USN)
-    );' , function(err) {
+connection.query('CREATE TABLE IF NOT EXISTS users'+
+    '(USN varchar(11) NOT NULL PRIMARY KEY,' +
+    'emailid varchar(50) NOT NULL, ' +
+    'password varchar(100) NOT NULL, '+
+    'name varchar(50) NOT NULL)' , function(err) {
     if (err) {
         console.log(err);
     }
@@ -40,10 +38,10 @@ exports.add = function (details , callback) {
             callback({'failed':'true', 'reason':'User already registered with emailid'+rows[0]});
         }
         else if (rows.length === 0){
-            connection.query('INSERT INTO users VALUES (' + details.usn + ','+  details.emailid + ','+ pass + ','+ details.name+')' , 
+            connection.query('INSERT INTO users VALUES (' + details.usn + ','+  details.emailid + ','+ pass + ','+ details.name+');' , 
                 function(err){
                     if (err) {
-                        callback('failed':'true','reason':err);
+                        callback({'failed':'true','reason':err});
                     }
                     else {
                         callback({'failed':false,'reason':''});
