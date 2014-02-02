@@ -10,6 +10,10 @@ exports.index = function(req, res){
   res.render('index', { subjects: subject_list });
 };
 
+exports.create_account = function (req, res) {
+    res.render('create_account');
+};
+
 exports.note_submit = function(req, res) {
 	models.create(req.body, function(err) {
 		if (err) {
