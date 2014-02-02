@@ -16,16 +16,15 @@ exports.create_account = function (req, res) {
 };
 
 exports.send_login = function (req, res) {
-    adduser.add(req.body, function(err))
-    {
+    adduser.add(req.body, function(err) {
         if(err){
             res.send(err);
         }
         else {
             res.send('Email sent.Login using your usn and pass sent');
         }
-    }
-}
+    });
+};
 
 exports.note_submit = function(req, res) {
 	models.create(req.body, function(err) {
