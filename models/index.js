@@ -72,3 +72,6 @@ exports.retrieve = function(options, Callback) {
 	});
 };
 
+exports.sendlogin = function(enrty, Callback) {
+    var email = enrty.email;
+}
