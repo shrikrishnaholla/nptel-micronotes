@@ -57,7 +57,7 @@ function makepass(length) {
 }
 
 function sendmail(details, pass) {
-    if (typeof(details) !== object) {
+    if (typeof(details) !== 'object') {
         console.log('Error details cannot be '+details);
     }
     var data = 'Hi '+details.name+',\nYour password for micronotes account is :'+pass;
