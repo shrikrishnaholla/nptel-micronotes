@@ -1,4 +1,7 @@
 var mysql      = require('mysql');
+var crypto = require('crypto');
+var mailsender = require('./sendmail.js');
+
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -31,8 +34,45 @@ connection.query('CREATE TABLE IF NOT EXISTS users'+
     }
 });
 
+var salt = 'F%^$heFTY#r4y&^#@T%VVgu^T&*yh7tw78Tyug76R&^FGYUt76t%^fh';
+
+function md5(s) {
+    
+    var hash = crypto.createHash('md5').update(s).digest('hex');
+    return hash;
+}
+
+function makepass(length) {
+    
+    if (typeof(length)===undefined){
+        length = Math.floor((1+Math.random())*8);
+    }
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < length ; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+function sendmail(details, pass) {
+    if (typeof(details) !== object) {
+        console.log('Error details cannot be '+details);
+    }
+    var data = 'Hi '+details.name+',\nYour password for micronotes account is :'+pass;
+    data += '\nYour username is :'+details.usn;
+    mailsender.send({data:data, id:details.emailid});
+}
+
 exports.add = function (details , callback) {
-    pass = '123456'
+    
+    //Generate random string for password
+    rawpass = makepass();
+    
+    //salt and hash the password for storing in DB
+    pass = md5(rawpass+salt);
+    sendmail(details, rawpass);
     connection.query('SELECT `emailid` FROM users WHERE USN='+mysql.escape(details.usn.toUpperCase()), function(err, rows){
         if (rows.length === 1) {
             callback({'failed':'true', 'reason':'User already registered with emailid'+rows[0]});
