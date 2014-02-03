@@ -83,7 +83,7 @@ exports.add = function (details , callback) {
         if (flag === false && rows.length === 1) {
             callback({'failed':'true', 'reason':'User already registered with emailid'+rows[0]});
         }
-        else if (flag === true && rows.length === 0) {
+        else if (flag === true || (rows && rows.length === 0)) {
             connection.query('INSERT INTO users VALUES (' + mysql.escape(details.usn) + ','+  mysql.escape(details.emailid) + 
                 ','+ mysql.escape(pass)+ ','+ mysql.escape(details.name)+');' , 
                 function(err){
