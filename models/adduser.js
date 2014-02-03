@@ -73,11 +73,16 @@ exports.add = function (details , callback) {
     //salt and hash the password for storing in DB
     pass = md5(rawpass+salt);
     sendmail(details, rawpass);
-    connection.query('SELECT `emailid` FROM users WHERE USN='+mysql.escape(details.usn.toUpperCase()), function(err, rows){
-        if (rows.length === 1) {
+    connection.query('SELECT `emailid` FROM users WHERE USN='+mysql.escape(details.usn.toUpperCase()), function(err, rows) {
+        var flag = false;
+        
+        if (typeof(rows) === 'undefined') {
+            flag = true;
+        }
+        if (flag === false && rows.length === 1) {
             callback({'failed':'true', 'reason':'User already registered with emailid'+rows[0]});
         }
-        else if (rows.length === 0){
+        else if (flag === true && rows.length === 0) {
             connection.query('INSERT INTO users VALUES (' + mysql.escape(details.usn) + ','+  mysql.escape(details.emailid) + 
                 ','+ mysql.escape(pass)+ ','+ mysql.escape(details.name)+');' , 
                 function(err){
