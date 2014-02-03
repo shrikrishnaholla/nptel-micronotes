@@ -44,7 +44,7 @@ function md5(s) {
 
 function makepass(length) {
     
-    if (typeof(length)===undefined){
+    if (typeof(length)==='undefined'){
         length = Math.floor((1+Math.random())*8);
     }
     var text = "";
@@ -70,6 +70,7 @@ exports.add = function (details , callback) {
     //Generate random string for password
     rawpass = makepass();
     
+    console.log(rawpass);
     //salt and hash the password for storing in DB
     pass = md5(rawpass+salt);
     sendmail(details, rawpass);
