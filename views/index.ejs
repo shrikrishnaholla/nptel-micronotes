@@ -84,6 +84,9 @@
         <a href="forgot_password"> Forgot Password? </a>
         </span>
 </p>
+    <% if(typeof(failed) !== 'undefined' && failed === true) { %>
+    <p>Wrong Username/Password</p>
+    <% } %>
     </div>
     </div>
   </body>
