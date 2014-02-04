@@ -6,19 +6,33 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript">
-    $('textarea').bind("enterKey",function(e){
-      e.preventDefault();
-      $('textarea').value = $('textarea').value + '\n';
-    });
-    $('textarea').keyup(function(e){
-        if(e.keyCode == 13)
-        {
-            e.preventDefault();
-            $(this).trigger("enterKey");
-        }
-    });
+        function capLock(e) {
+            if (!e) {
+                e = window.event;
+            }
+            kc = e.keyCode?e.keyCode:e.which;
+            sk = e.shiftKey?e.shiftKey:((kc == 16)?true:false);
+            if(((kc >= 65 && kc <= 90) && !sk)||((kc >= 97 && kc <= 122) && sk))
+                document.getElementById('divMayus').style.visibility = 'visible';
+            else
+                document.getElementById('divMayus').style.visibility = 'hidden';
+            }
     </script>
     <style type="text/css">
+    a {
+        font-weight:bold;
+        font-size:18px;
+        display: inline;
+    }
+    .btn {
+        font-weight: bold;              
+    }
+    
+    #divMayus {
+        color:red;
+        font-size:13px;
+    }
+    
     label {
       font-weight: bold;
       font-size: 20px;
@@ -38,54 +52,39 @@
     </style>
   </head>
   <body>
-    <!--
-    <form action="success" method="POST">
-      <p class="page-">Submit notes</p>
-      <div class="form-group">
+<div>    
+    <form action="login" method="POST">
+      <p >NPTEL Micronotes</p>
+      <div >
         <label>USN</label>
         <span class="user-input">
           <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}"><br>
         </span>
-         
-        <label>Subject</label>
-        <span class="user-input">
-        <div class="select-style">
-          <select name="subject">
-            <% for (var i=0; i < subjects.length; ++i) { %>
-              <option value="<%=subjects[i].course_id%>"><%=subjects[i].name%></option>
-            <% } %>
-          </select>
-        </div>
-          </span>
 
-        <label>Lecture number</label>
+
+        <label>Password</label>
         <span class="user-input">
-          <input required type="number" name="lec_no" placeholder="Ex :  10" class="form-control"><br>
+          <input required type="password" name="password" placeholder="password" class="form-control" onkeypress="capLock(event)"><br>
         </span>
-        <label>Time</label>
-        <span class="user-input">
-          <input required type="text" name="note_time" placeholder="<hh :>  mm : ss" class="form-control" pattern="([0-9]{2}[:])?([0-9]{2}:[0-9]{2})"><br>
+        <span>
+            <div id="divMayus" style="visibility:hidden">Caps Lock is on.</div> 
         </span>
-        <label>Note Type</label>
-        <div class="select-style">
-          <select name="note_type">
-            <option value="elaboration">Elaboration</option>
-            <option value="translation">Translation</option>
-            <option value="supportive_content">Supportive Content</option>
-          </select>
-        </div>
+       <span class="user-input">
+                <input required type="submit" class="btn btn-block btn-lg btn-success" value="Login"/>
         </span>
-        <label>Note Content</label>
-        <span class="user-input">
-          <textarea cols="48" rows="5" required id="notes" name="content" placeholder="Note Content" class="form-control"></textarea><br>
-        <label>Reference Link</label>
-        <span class="user-input">
-          <input type="url" name="ext_links" placeholder="http://example.com" class="form-control"><br>
-      </div>
-	    <span class="user-input">
-        <input required type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
-	  </span>
-    </form> -->
-    <a href="create_account">Create Account</a>
+    </form> 
+    </div>
+    <div style="margin-left:35%">
+    <p>
+        <span style="padding-left:10px">
+        <a href="create_account">Create Account</a>
+        </span>
+    
+        <span style="padding-left:75px">
+        <a href="forgot_password"> Forgot Password? </a>
+        </span>
+</p>
+    </div>
+    </div>
   </body>
 </html>
