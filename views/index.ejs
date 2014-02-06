@@ -4,6 +4,7 @@
     <title>NPTEL Micro Notes</title>
     <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript">
         function capLock(e) {
@@ -18,7 +19,38 @@
                 document.getElementById('divMayus').style.visibility = 'hidden';
             }
     </script>
+    
+    <script type="text/javascript">
+        var urlParams;
+        (window.onpopstate = function () {
+            var match,
+                pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                search = /([^&=]+)=?([^&]*)/g,
+                decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                query  = window.location.search.substring(1);
+        
+            urlParams = {};
+            while (match = search.exec(query))
+               urlParams[decode(match[1])] = decode(match[2]);
+        })();
+    </script>
+    <script type="text/javascript">
+        function init() {
+            if(typeof(urlParams) !== 'undefined') {
+                if("ntries" in urlParams && parseInt(urlParams.ntries) >= 1) {
+                    $('#wrongcreds').text('Wrong Username/password combination');
+                }
+                if("loggedin" in urlParams && parseInt(urlParams.loggedin) === 0) {
+                    $('#nologin').text('Please login to continue');
+                }
+            }
+        }
+    </script>
     <style type="text/css">
+    #wrongcreds {
+        color: rgba(204, 58, 51, 0.9);
+        font-size:16px;
+    }
     a {
         font-weight:bold;
         font-size:18px;
@@ -29,13 +61,13 @@
     }
     
     #divMayus {
-        color:red;
+        color: rgba(204, 58, 51, 0.9);
         font-size:13px;
     }
     
     label {
       font-weight: bold;
-      font-size: 20px;
+      font-size: 18px;
       margin-top: 10px;
     }
     .user-input {
@@ -47,14 +79,17 @@
       font-weight: bold;
     }
     body {
-    	background : #eeeeee;
+    	background : #f6f6f6;
     }
     </style>
   </head>
-  <body>
+  <body onload="init()">
+
 <div>    
     <form action="login" method="POST">
       <p >NPTEL Micronotes</p>
+      <p id="wrongcreds"></p>
+      <p id="nologin"></p>
       <div >
         <label>USN</label>
         <span class="user-input">
@@ -74,6 +109,7 @@
         </span>
     </form> 
     </div>
+    
     <div style="margin-left:35%">
     <p>
         <span style="padding-left:10px">
@@ -84,9 +120,7 @@
         <a href="forgot_password"> Forgot Password? </a>
         </span>
 </p>
-    <% if(typeof(failed) !== 'undefined' && failed === true) { %>
-    <p>Wrong Username/Password</p>
-    <% } %>
+
     </div>
     </div>
   </body>

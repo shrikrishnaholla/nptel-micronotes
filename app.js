@@ -15,6 +15,8 @@ var app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.cookieParser('wow, such secret'));
+app.use(express.session());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
@@ -32,6 +34,7 @@ app.get('/', routes.index);
 app.get('/create_account', routes.create_account);
 app.post('/send_login', routes.send_login);
 app.post('/login', routes.login);
+app.get('/home', routes.home);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
