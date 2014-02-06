@@ -5,6 +5,9 @@ function md5(s) {
     var hash = crypto.createHash('md5').update(s).digest('hex');
     return hash;
 }
-exports.login = function(details, callback) {
-    callback({'failed':true});
+exports.login = function(req, callback) {
+    req.session.user = {name:'Srinidhi', asd:'sdfg'};
+    req.session.isLoggedin = true;
+    callback();
+    //callback({'failed':true});
 }
