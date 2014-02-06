@@ -33,7 +33,7 @@ exports.send_login = function (req, res) {
 
 exports.home = function(req,res) {
     console.log(req.session);
-    if (typeof(req.session.user) !== 'undefined') {
+    if (req.session.isLoggedin && typeof(req.session.user) !== 'undefined') {
         res.render('home',{user:req.session.user});
     }
     else {
