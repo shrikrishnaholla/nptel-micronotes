@@ -40,6 +40,9 @@
                 if("ntries" in urlParams && parseInt(urlParams.ntries) >= 1) {
                     $('#wrongcreds').text('Wrong Username/password combination');
                 }
+                if("loggedin" in urlParams && parseInt(urlParams.loggedin) === 0) {
+                    $('#nologin').text('Please login to continue');
+                }
             }
         }
     </script>
@@ -86,6 +89,7 @@
     <form action="login" method="POST">
       <p >NPTEL Micronotes</p>
       <p id="wrongcreds"></p>
+      <p id="nologin"></p>
       <div >
         <label>USN</label>
         <span class="user-input">
