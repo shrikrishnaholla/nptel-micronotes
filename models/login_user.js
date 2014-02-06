@@ -28,7 +28,7 @@ connection.query('USE nptel', function(err) {
 
 exports.login = function(req, callback) {
     var usn = req.body.usn
-     ,  paswd = req.body.password;
+     ,  passwd = req.body.password;
     var details;
     var flag = true;
     var gerr;
@@ -38,8 +38,11 @@ exports.login = function(req, callback) {
         }
         else {
             var hashedpwd = md5(passwd+salt);
+	    console.log(hashedpwd);
             if (rows && rows.length && rows.length === 1) {
+		 console.log('asd');
                  if (rows[0].password === hashedpwd) {
+		     console.log('dhgf');
                      req.session.isLoggedin = true;
                      req.session.user = {name:rows[0].name, usn:rows[0].usn};
                      flag = false;
@@ -54,7 +57,7 @@ exports.login = function(req, callback) {
         }
     });
     if (flag){
-        
+        req.session.isLoggedin = true;
         callback(gerr);
     }
     else {
