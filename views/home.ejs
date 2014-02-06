@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NPTEL Micro Notes</title>
+    <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        function getUserInfo() {
+            $.ajax({
+                url:'userinfo',
+                type:'get',
+                success : function(data) {
+                    $('#msg').text('Welcome '+data.name);
+                }
+            });
+        }
+  </head>
+  <body>
+  </body>
+</html>
