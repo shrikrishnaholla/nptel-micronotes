@@ -9,8 +9,8 @@ var adduser         = require('../models/adduser');
 var login_user      = require('../models/login_user'); 
 
 exports.index = function(req, res){
-    console.log(req.session);
-    if (req.session.isLoggedin === true) {
+    //console.log(req.session);
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
         res.redirect('/home');
     }
   res.render('index');
@@ -31,9 +31,9 @@ exports.send_login = function (req, res) {
     });
 };
 
-exports.home = function(req,res) {
-    console.log(req.session);
-    if (req.session.isLoggedin && typeof(req.session.user) !== 'undefined') {
+exports.home = function(req, res) {
+    //console.log(req.session);
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
         res.render('home',{user:req.session.user});
     }
     else {
@@ -44,6 +44,7 @@ exports.home = function(req,res) {
 exports.login = function(req, res) {
     login_user.login(req, function(err) {
        console.log(err);
+       console.log(req.session);
        if(err) {
            res.redirect('/?ntries=1');
        } 
