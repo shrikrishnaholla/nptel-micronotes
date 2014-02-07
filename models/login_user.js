@@ -29,40 +29,46 @@ connection.query('USE nptel', function(err) {
 exports.login = function(req, callback) {
     var usn = req.body.usn
      ,  passwd = req.body.password;
-    var details;
-    var flag = true;
-    var gerr;
-    connection.query('SELECT * FROM users WHERE USN='+mysql.escape(usn.toUpperCase()), function(err, rows) {
+
+    var query = connection.query('SELECT * FROM users WHERE USN='+mysql.escape(usn.toUpperCase()), function(err, rows) {
+        var user={};
+        var flag = true;
+        var gerr;
         if(err) {
             gerr = err;
         }
         else {
             var hashedpwd = md5(passwd+salt);
-	    console.log(hashedpwd);
+           // console.log(hashedpwd);
             if (rows && rows.length && rows.length === 1) {
-		 console.log('asd');
-                 if (rows[0].password === hashedpwd) {
-		     console.log('dhgf');
-                     req.session.isLoggedin = true;
-                     req.session.user = {name:rows[0].name, usn:rows[0].usn};
-                     flag = false;
-                 }
-                 else {
-                     gerr = 'wrong password';
-                 }
+                
+                //console.log('asd');
+                if (rows[0].password === hashedpwd) {
+                    
+                    //console.log('dhgf');
+                    
+                    user = {name:rows[0].name, usn:rows[0].USN};
+                    console.log(user);
+                    flag = false;
+                }
+                else {
+                    gerr = 'wrong password';
+                }
             }
             else {
                 gerr = 'wrong creds';
             }
         }
-    });
-    if (flag){
-        req.session.isLoggedin = true;
-        callback(gerr);
-    }
-    else {
-        req.session.isLoggedin = false;
-        callback();
-    }
+
+        if (!flag){
+            console.log(user);
+            req.session.user = user;
+            req.session.isLoggedin = 1;
+            callback(gerr);
+        }
+        else {
+            req.session.isLoggedin = 0;
+            callback();
+        }});
     //callback({'failed':true});
 }
