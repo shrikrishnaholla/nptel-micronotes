@@ -35,6 +35,10 @@ app.get('/create_account', routes.create_account);
 app.post('/send_login', routes.send_login);
 app.post('/login', routes.login);
 app.get('/home', routes.home);
+app.get('/download', routes.download_notes);
+app.get('/addnote', routes.addnote);
+app.get('/query', routes.query);
+app.get('/search', routes.search);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
