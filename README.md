@@ -16,5 +16,4 @@ Dependencies
 ------------
 - [Node.js](http://nodejs.org)
 - [MongoDB](http://www.mongodb.org)
-- [MySQL](http://www.mysql.com/)
-
+- [MySQL](http://www.mysql.com)
