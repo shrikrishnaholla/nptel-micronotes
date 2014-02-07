@@ -6,9 +6,14 @@
 var subject_list    = require('../subjects');
 var models          = require('../models');
 var adduser         = require('../models/adduser');
+var login_user      = require('../models/login_user'); 
 
 exports.index = function(req, res){
-  res.render('index', { subjects: subject_list });
+    //console.log(req.session);
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        res.redirect('/home');
+    }
+  res.render('index');
 };
 
 exports.create_account = function (req, res) {
@@ -26,6 +31,29 @@ exports.send_login = function (req, res) {
     });
 };
 
+exports.home = function(req, res) {
+    //console.log(req.session);
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        res.render('home',{user:req.session.user});
+    }
+    else {
+        res.redirect('/?loggedin=0');
+    }
+}
+
+exports.login = function(req, res) {
+    login_user.login(req, function(err) {
+       console.log(err);
+       console.log(req.session);
+       if(err) {
+           res.redirect('/?ntries=1');
+       } 
+       else {
+           res.redirect('/home');
+       }
+    });
+};
+
 exports.note_submit = function(req, res) {
 	models.create(req.body, function(err) {
 		if (err) {
@@ -38,7 +66,7 @@ exports.note_submit = function(req, res) {
 
 exports.search = function(req, res) {
     qryparams = {}
-    for (param in req.query)
+    for (var param in req.query)
     {
         if(typeof req.query[param] === 'string' && param !== 'content') {
             qryparams[param] = req.query[param].toUpperCase();
@@ -51,7 +79,7 @@ exports.search = function(req, res) {
 	models.retrieve(qryparams, function(err, notes) {
 		if (err) {
 			res.end("No notes found for the requested user");
-		};
+		}
 		res.json(notes);
 		res.end();
 	});
