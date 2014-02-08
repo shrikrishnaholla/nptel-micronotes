@@ -1,0 +1,48 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/colors.css"/>
+</head>
+<body>
+
+    <div class="bar">
+        <div class="user">Welcome, <%=user.name%></div>
+        <a href="/query"><img class="icon" src="images/notes/search.png"/></a>
+        <a href="/addnote"><img class="icon" src="images/notes/addnote.png"/></a>
+        <a href="#"><img class="icon download" src="images/notes/download.png"/></a>
+    </div>
+
+    
+
+<div class="cards">
+
+    <% for(var i=0; i<notes.length; i++) {%>
+        <div class="container">        
+            <div class="SpringGreen">
+                <div class="card">
+                    <span hidden><%=notes[i]._id%></span>
+                    <div class="title">
+                        <a href="<%='http://nptel.ac.in/courses/' + notes[i].subject + '/' + notes[i].lec_no%>"
+                            target="_blank">
+                            Lecture
+                        </a> at <%=notes[i].note_time%>
+                    </div>
+                    <div class="content">
+                        <%=notes[i].content%>
+                        <% if(notes[i].ext_links) { %>
+                            <br/> <a href="<%=notes[i].ext_links%>"><%=notes[i].ext_links%></a>
+                        <%}%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+    <script type='text/javascript' src="javascripts/jquery.appear.js"></script>
+    <script type='text/javascript' src="javascripts/jquery-ui.js"></script>
+    <script type='text/javascript' src="javascripts/jquery-filedownload.js"></script>
+    <script type='text/javascript' src="javascripts/notes.js"></script>
+</body>
+</html>

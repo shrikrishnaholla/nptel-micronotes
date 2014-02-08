@@ -14,7 +14,7 @@ exports.send = function(params) {
     console.log(params)
     // setup e-mail data with unicode symbols
     var mailOptions = {
-        from: "NPTEL Micronotes ✔ <nptelmicronotes@gmail.com>", // sender address
+        from: "NPTEL Micronotes <nptelmicronotes@gmail.com>", // sender address
         to: params.id, // list of receivers
         subject: "NPTEL Micronotes Account", // Subject line
         text: params.data, // plaintext body
