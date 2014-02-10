@@ -66,8 +66,10 @@ exports.note_submit = function(req, res) {
   if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
       models.create(req.body, function(err) {
           if (err) {
+              res.setHeader('Content-Type', 'text/plain');
             res.end("Oops! There was an error submitting your note. Please try again<br><a href='/home'>Go back</a>");
           } else {
+              res.setHeader('Content-Type', 'text/plain');
             res.end("Your note was Successfully saved! <br/> <a href='/home'>Go back</a>");
           }
       });

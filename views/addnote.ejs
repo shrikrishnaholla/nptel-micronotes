@@ -37,12 +37,12 @@
     }
     </style>
   </head>
-  <body><form action="success" method="POST">
+  <body><form action="submit_note" method="POST">
       <p class="page-">Submit notes</p>
       <div class="form-group">
         <label>USN</label>
         <span class="user-input">
-          <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}" value=<%=user.usn%> disabled><br>
+          <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}" value=<%=user.usn%> readonly><br>
         </span>
          
         <label>Subject</label>
