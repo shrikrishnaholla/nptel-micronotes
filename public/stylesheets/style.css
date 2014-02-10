@@ -8,9 +8,9 @@ a {
 }
 
 form {
-    position: absolute;
-    left: 50%;
-    margin-left: -200px;
+    /*position: absolute;*/
+    /*left: 50%;*/
+    margin-left: 35%;
     width: 200px;
 }
 

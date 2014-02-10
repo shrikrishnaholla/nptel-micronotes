@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>NPTEL Micro Notes</title>
+        <link rel='stylesheet' href='/stylesheets/flat-ui.css' />
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+        <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+        
+        <script type="text/javascript">
+        
+        </script>
+        <style type="text/css">
+            body {
+                background : #eeeeee;
+            }
+            .user-input {
+                text-align: center;
+                margin: 0 auto;
+            }
+            label{
+                font-weight: bold;
+                font-size: 16px;
+            }
+            .btn {
+                font-weight: bold;              
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2 align="center">Create Account</h2>
+    <form action="send_login" method="POST">
+        <!--<p class="page-">Submit notes</p>-->
+        <div class="form-group">
+            <label>USN</label>
+            <span class="user-input">
+                <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}">
+            </span>
+            <br>
+            <label>Email Id</label>
+            <span class="user-input">
+                <input required type="email" name="emailid" placeholder="you@example.com" class="form-control">
+            </span>
+            <label>Name</label>
+            <span class="user-input">
+                <input required type="text" name="name" placeholder="FirstName LastName" class="form-control">
+            </span>
+            <span class="user-input">
+                <input required type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
+            </span>
+        </div>
+    </form>
+    </body>
+</html>
