@@ -34,6 +34,7 @@ app.get('/', routes.index);
 app.get('/create_account', routes.create_account);
 app.post('/send_login', routes.send_login);
 app.post('/login', routes.login);
+app.post('/submit_note', routes.note_submit);
 app.get('/home', routes.home);
 app.get('/download', routes.download_notes);
 app.get('/addnote', routes.addnote);
