@@ -48,6 +48,48 @@ exports.home = function(req, res) {
     }
 }
 
+exports.add_comment = function(req, res) {
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        models.add_comment(req.body, function(err) {
+           if(err) {
+               res.send('Error occured');
+           } 
+           else {
+               res.redirect('/view_note?_id='+req.body.p_id);
+           }
+        });
+    }
+    
+    else {
+        res.redirect('/?loggedin=0');
+    }
+}
+
+exports.view_note = function(req, res) {
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        var pid = req.query['_id'];
+        models.retrieve({'_id': pid}, function(err, note) {
+            if (err) {
+                res.send(500);
+            }
+            
+            else {
+                console.log(note);
+                models.get_comments({'parent_id': pid}, function(err, cmnts) {
+                    if(err) {
+                        res.send(500);
+                    }
+                    else {
+                        res.render('view_note', {user:req.session.user, note:note, comments:cmnts});
+                    }
+                });
+            }
+        });
+    }
+    else {
+        res.redirect('/?loggedin=0');
+    }
+}
 exports.login = function(req, res) {
     login_user.login(req, function(err) {
        console.log(err);
@@ -66,8 +108,10 @@ exports.note_submit = function(req, res) {
   if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
       models.create(req.body, function(err) {
           if (err) {
+              res.setHeader('Content-Type', 'text/plain');
             res.end("Oops! There was an error submitting your note. Please try again<br><a href='/home'>Go back</a>");
           } else {
+              res.setHeader('Content-Type', 'text/plain');
             res.end("Your note was Successfully saved! <br/> <a href='/home'>Go back</a>");
           }
       });
