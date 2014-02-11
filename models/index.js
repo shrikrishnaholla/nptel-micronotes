@@ -10,7 +10,7 @@
  * ext_links	: String
 */
 
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/micronotes');
 var Schema = mongoose.Schema;
 
@@ -24,6 +24,15 @@ var MicroNoteSchema = new Schema({
 	ext_links	: String,
 	datetime    : String
 });
+
+var CommentSchema = new Schema({
+    author    : String,
+    datetime  : String,
+    parent_id : String,
+    content   : String,
+    emailid   : String
+});
+
 function getDateTime() {
 
     var date = new Date();
@@ -49,6 +58,27 @@ function getDateTime() {
 
 }
 var MicroNote = mongoose.model('MicroNotes', MicroNoteSchema);
+var Comment   = mongoose.model('Comments', CommentSchema);
+
+exports.add_comment = function(entry, callback) {
+    var newcomment = new Comment();
+    console.log(entry);
+    newcomment.author = entry.usn.toUpperCase();
+    newcomment.emailid = entry.emailid;
+    newcomment.parent_id = entry.p_id;
+    newcomment.content = entry.content;
+    newcomment.datetime = getDateTime();
+    newcomment.save(callback);
+}
+
+exports.get_comments = function(params, callback) {
+    if(typeof(params) === 'undefined') {
+        params = {};
+    }
+    Comment.find(params, function(err, cmnts) {
+        callback(err, cmnts);
+    });
+}
 
 exports.create = function(entry, Callback) {
 	var newnote = new MicroNote();
@@ -66,12 +96,12 @@ exports.create = function(entry, Callback) {
 exports.retrieve = function(options, Callback) {
 	if (typeof options === 'undefined') {
 		options = {};
-	};
+	}
 	MicroNote.find(options, function(err, docs) {
 		Callback(err, docs);
 	});
 };
-
 exports.sendlogin = function(enrty, Callback) {
     var email = enrty.email;
 }
+
