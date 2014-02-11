@@ -48,6 +48,48 @@ exports.home = function(req, res) {
     }
 }
 
+exports.add_comment = function(req, res) {
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        models.add_comment(req.body, function(err) {
+           if(err) {
+               res.send('Error occured');
+           } 
+           else {
+               res.redirect('/view_note?_id='+req.body.p_id);
+           }
+        });
+    }
+    
+    else {
+        res.redirect('/?loggedin=0');
+    }
+}
+
+exports.view_note = function(req, res) {
+    if (req.session.isLoggedin === 1 && typeof(req.session.user) !== 'undefined') {
+        var pid = req.query['_id'];
+        models.retrieve({'_id': pid}, function(err, note) {
+            if (err) {
+                res.send(500);
+            }
+            
+            else {
+                console.log(note);
+                models.get_comments({'parent_id': pid}, function(err, cmnts) {
+                    if(err) {
+                        res.send(500);
+                    }
+                    else {
+                        res.render('view_note', {user:req.session.user, note:note, comments:cmnts});
+                    }
+                });
+            }
+        });
+    }
+    else {
+        res.redirect('/?loggedin=0');
+    }
+}
 exports.login = function(req, res) {
     login_user.login(req, function(err) {
        console.log(err);
