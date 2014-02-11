@@ -26,12 +26,12 @@
                             target="_blank">
                             Lecture
                         </a> at <%=notes[i].note_time%>
-                        <a href=<%='/view_note?_id='+notes[i]._id%>>View note</a>
                     </div>
+                    <a class="discuss" href=<%='/view_note?_id='+notes[i]._id%>>Discuss</a>
                     <div class="content">
                         <%=notes[i].content%>
                         <% if(notes[i].ext_links) { %>
-                            <br/> <a href="<%=notes[i].ext_links%>"><%=notes[i].ext_links%></a>
+                            <br/> <a href="<%=notes[i].ext_links%>" target="_blank"><%=notes[i].ext_links%></a>
                         <%}%>
                     </div>
                 </div>
