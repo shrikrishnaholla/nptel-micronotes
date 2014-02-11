@@ -40,6 +40,8 @@ app.get('/download', routes.download_notes);
 app.get('/addnote', routes.addnote);
 app.get('/query', routes.query);
 app.get('/search', routes.search);
+app.get('/view_note',routes.view_note);
+app.post('/add_comment',routes.add_comment);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
