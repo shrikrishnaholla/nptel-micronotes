@@ -1,7 +1,9 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/> -->
+    <link rel="stylesheet" type="text/css" media="all" href="stylesheets/comments.css" />
     <link rel="stylesheet" type="text/css" href="stylesheets/colors.css"/>
+    
 </head>
 <script type="text/javascript">
     function submitcmnt() {
@@ -15,7 +17,7 @@
                 emaild : $('#emailid').val()
                 },
             success : function(data) {
-                alert('Submitted');
+                location.reload();
             },
             failure : function() {
                 alert('submission failed');
@@ -23,6 +25,8 @@
         });
     }
 </script>
+<script type="text/javascript" src="javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="javascripts/jcs.js"></script>
 <body>
 
     <div class="bar">
@@ -52,6 +56,7 @@
             </div>
         </div>
     </div>
+    <!--
     <div class="cards">
     <div class="container">
     <% for(var i=0; i<comments.length; i++) {%>
@@ -67,11 +72,35 @@
             </div>
         </div>
     <% } %>
-    <div>
-    <h2>Add a comment</h2>
-            <textarea id="content" name="content"></textarea>
-            <input type="submit" value="submit" class="btn btn-block btn-lg btn-success" onclick="submitcmnt()">
+-->
+<!-- Comments section begins -->
+<div class="comments">
+<% for(var i=0; i<comments.length; i++) {%>
+    <div class="comment-thread">
+        <div class="comment-block" id="<%=comments[i]._id%>">
+            <span hidden><%=comments[i]._id%></span>
+            <p class="comment-top-meta">
+                <span class="comment-top-content">
+                <strong><%=comments[i].author%></strong> 
+                <span>posted at <%=comments[i].datetime%></span>
+                </span>
+            </p>
+            
+            <div class="comment-content">
+                <p class="the-comment-post"><%=comments[i].content%></p>
+                
+                
+               
+            </div>
+        </div>
     </div>
+<% } %>
+    <p class="comment-reply-options"><a class="option-reply">Reply</a></p>
+    <div class="showhidecommform">&nbsp;</div>
+</div>
+
+<!-- Comments section ends -->
+    
     <script type="text/javascript" src="javascripts/jquery.min.js"></script>
     <script type='text/javascript' src="javascripts/jquery.appear.js"></script>
     <script type='text/javascript' src="javascripts/jquery-ui.js"></script>

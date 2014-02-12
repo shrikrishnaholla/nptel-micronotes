@@ -1,0 +1,60 @@
+@import url('./notes.css');
+/** unique styles for jQuery comments **/
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+
+body {
+	margin-left: 25%;
+	width: 50%;
+    font-family: 'Open Sans', sans-serif;
+    background: #f3f3f3;
+}
+
+textarea {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    height:auto;
+    width: 100%;
+    float:left;
+    display: block;
+    position: relative;
+    background: transparent;
+}
+
+.comments { margin-top: 5px; width:96%; display: block; position: relative; font-family: 'Open Sans', sans-serif; font-size: 100%; }
+
+h1 { font-family: Georgia, Helvetica, sans-serif; font-size: 18px; letter-spacing: -0.04em; color: #85a0b5; font-weight: normal; line-height: 1.7em; margin-bottom: 6px; }
+a { color: #105Cb6; text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+p { display: block; }
+
+.comment-thread { width: 100%; margin-bottom: 20px; } /** note the fixed width is for tutorial purposes. this can expand fully for any template **/
+.thread-replies .comment-thread {width: auto; }
+.comment-block { min-height: 1%; margin-bottom: 50px; }
+
+.thread-replies { display: block; margin-left: 45px; }
+
+
+/*.comment-top-meta { display: block; height: 25px; background: #e4edf4; font-size: 12px; line-height: 13px; }*/
+.comment-top-content {display: inline-block; height: 25px; width:100%;background: #e4edf4; font-size: 12px; line-height: 13px;}
+.comment-top-meta strong { color: #474747; line-height: 25px; margin-right: 8px; }
+.comment-top-meta span { font-size: 11px; color: #818181; line-height: 25px; }
+
+.comment-content { display: block; line-height: 14px; margin-bottom: 10px; }
+.comment-content .the-comment-post { display: block; color: #333; font-size: 12px; margin-bottom: 3px; }
+
+.comment-reply-options { display: block; margin-bottom: 10px; }
+.showhidecommform { display: block; }
+
+a.option-reply { float: left; margin-right: 10px; font-weight: bold; font-size: 12px; line-height: 18px; padding-left: 22px; background: url('/images/comments/commadd.png') 0 -1px no-repeat; }
+
+#commsubform { display: block; padding-top: 12px; margin-bottom: 3px; clear: both; }
+#commsubform label { display: block; margin-top: 8px; font-size: 11px; font-weight: bold; margin-bottom: 2px; color: #666; }
+.commtxtfield { width: 350px; height: 144px; padding: 4px 7px; font-family: Arial, Tahoma, sans-serif; font-size: 14px; line-height: 18px; color: #575a60; }
+#commsubform .savecommbtn { font-size: 12px; font-weight: bold; padding: 3px 7px; color: #fff; background: #426b9b; }

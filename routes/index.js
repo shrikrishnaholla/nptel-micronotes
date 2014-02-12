@@ -55,7 +55,8 @@ exports.add_comment = function(req, res) {
                res.send('Error occured');
            } 
            else {
-               res.redirect('/view_note?_id='+req.body.p_id);
+               // res.redirect('/view_note?_id='+req.body.p_id);
+               res.end();
            }
         });
     }
