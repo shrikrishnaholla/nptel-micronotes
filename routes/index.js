@@ -189,8 +189,9 @@ exports.is_rated = function(req, res) {
 };
 
 exports.rate_note = function(req, res) {
-    models.rate_note(req.body.id, req.body.usn, req.body.rating, function(err) {
+    models.rate_note(req.body.pid, req.session.user.usn, req.body.rate, function(err) {
         if (err) {
+            console.log(err);
             res.send({failed:true, reason : err});
         }
         else {
