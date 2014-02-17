@@ -12,7 +12,7 @@ function md5(s) {
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
-    password : 'resistant'
+    password : 'ash'
 });
 
 
