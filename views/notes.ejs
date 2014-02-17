@@ -2,6 +2,57 @@
 <head>
     <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/colors.css"/>
+    <style type="text/css">
+            .rating {
+          unicode-bidi: bidi-override;
+          direction: rtl;
+        }
+        .rating > span {
+          display: inline-block;
+          position: relative;
+          width: 1.1em;
+        }
+        .rating > span:hover:before,
+        .rating > span:hover ~ span:before {
+           content: "\2605";
+           position: absolute;
+        }
+        .ratednotes {
+            unicode-bidi: bidi-override;
+          direction: rtl;
+        }
+        .ratednotes > span {           
+          display: inline-block;
+          position: relative;
+          content : "\2605";
+          width: 1.2em;
+          color:gold;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+    function rate(e) {
+        if (!e) {
+            e = window.event;
+        }
+        var target = e.target || e.srcElement;
+        var nid = $(e.target).parent().parent().attr("id");
+        var rating = parseInt($(e.target).attr("id"));
+        $.ajax({
+            url : 'rate_note',
+            type : 'POST',
+            data : {pid : nid, rate:rating},
+            success : function() {
+                location.reload();
+            },
+            /*error : fucntion() {
+                alert('failed');
+            }*/
+        });
+        
+    }
+    </script>
 </head>
 <body>
 
@@ -19,15 +70,15 @@
     <% for(var i=0; i<notes.length; i++) {%>
         <div class="container">        
             <div class="SpringGreen">
-                <div class="card">
-                    <span hidden id="note_id"><%=notes[i]._id%></span>
+                <div class="card" id="<%=notes[i]._id%>">
+                    <span hidden class="note_id"><%=notes[i]._id%></span>
                     <div class="title">
                         <a href="<%='http://nptel.ac.in/courses/' + notes[i].subject + '/' + notes[i].lec_no%>"
                             target="_blank">
                             Lecture
                         </a> at <%=notes[i].note_time%>
                     </div>
-                    <span class="ratings">
+                    
                     <% for(var j=0; j < notes[i].ratings.length; j++) {
                         var rating;
                         if(notes[i].ratings[j].usn === user.usn) {
@@ -36,10 +87,23 @@
                         }
                     %>
                     <% if(typeof(rating) !== 'undefined') {%>
-                        <p>Your rating <%=rating%>
+                    <div class="ratednotes">
+                        <%for (var k =0 ; k< rating; k++) {%>
+                        <span>☆</span>
+                        <%}%>
+                        </div>
                         
                     <%} else { %>
                          <p>Rate this note</p>
+                         <div class="rating">
+
+                            <span id="5" onclick="rate()">☆</span>
+                            <span id="4" onclick="rate()">☆</span>
+                            <span id="3" onclick="rate()">☆</span>
+                            <span id="2" onclick="rate()">☆</span>
+                            <span id="1" onclick="rate()">☆</span>
+
+                        </div>
                     <%}%>
                     </span>
                     <a class="discuss" href=<%='/view_note?_id='+notes[i]._id%>>Discuss</a>

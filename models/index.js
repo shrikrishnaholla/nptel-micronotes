@@ -77,7 +77,7 @@ exports.add_comment = function(entry, callback) {
 }
 
 exports.is_rated = function(note_id, usn) {
-    Micronote.findById(note_id, function(err, note) {
+    MicroNote.findById(note_id, function(err, note) {
         if(err) {
             return true;
         }
@@ -93,7 +93,7 @@ exports.is_rated = function(note_id, usn) {
 }
 
 exports.rate_note = function(note_id, usn, rating, callback) {
-    Micronote.findById(note_id, function(err, note) {
+    MicroNote.findById(note_id, function(err, note) {
         if(err) {
             callback(err);
         }
