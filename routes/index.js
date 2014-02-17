@@ -183,3 +183,18 @@ exports.query = function(req, res) {
         res.redirect('/?loggedin=0');
     }
 };
+
+exports.is_rated = function(req, res) {
+  return (models.is_rated(req.body.id, req.body.usn));
+};
+
+exports.rate_note = function(req, res) {
+    models.rate_note(req.body.id, req.body.usn, req.body.rating, function(err) {
+        if (err) {
+            res.send({failed:true, reason : err});
+        }
+        else {
+            res.send({failed:false});
+        }
+    });
+};

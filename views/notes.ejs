@@ -20,13 +20,28 @@
         <div class="container">        
             <div class="SpringGreen">
                 <div class="card">
-                    <span hidden><%=notes[i]._id%></span>
+                    <span hidden id="note_id"><%=notes[i]._id%></span>
                     <div class="title">
                         <a href="<%='http://nptel.ac.in/courses/' + notes[i].subject + '/' + notes[i].lec_no%>"
                             target="_blank">
                             Lecture
                         </a> at <%=notes[i].note_time%>
                     </div>
+                    <span class="ratings">
+                    <% for(var j=0; j < notes[i].ratings.length; j++) {
+                        var rating;
+                        if(notes[i].ratings[j].usn === user.usn) {
+                            rating = notes[i].ratings[j].rating;
+                        }
+                        }
+                    %>
+                    <% if(typeof(rating) !== 'undefined') {%>
+                        <p>Your rating <%=rating%>
+                        
+                    <%} else { %>
+                         <p>Rate this note</p>
+                    <%}%>
+                    </span>
                     <a class="discuss" href=<%='/view_note?_id='+notes[i]._id%>>Discuss</a>
                     <div class="content">
                         <%=notes[i].content%>
