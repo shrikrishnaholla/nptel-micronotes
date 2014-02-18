@@ -18,6 +18,22 @@
         }
     });
     </script>
+    <script>
+    function setContentType()
+    {
+      document.getElementById("note_content").style.display = "block";
+      document.getElementById("options").style.display = "none";
+      if(document.getElementById("note_type").value == "mcq")
+      {
+        document.getElementById("notes").placeholder = "Enter the Question";
+        document.getElementById("options").style.display = "block";
+        document.getElementById("option1").required = true ;
+        document.getElementById("option2").required = true ;
+        document.getElementById("option3").required = true ;
+        document.getElementById("option4").required = true ;
+      }
+    }
+    </script>
     <style type="text/css">
     label {
       font-weight: bold;
@@ -33,16 +49,16 @@
       font-weight: bold;
     }
     body {
-    	background : #eeeeee;
+      background : #eeeeee;
     }
     </style>
   </head>
-  <body><form action="submit_note" method="POST">
+  <body><form id="micronote" action="submit_note" method="POST">
       <p class="page-">Submit notes</p>
       <div class="form-group">
-        <label>USN</label>
+       <label>Author Id</label>
         <span class="user-input">
-          <input required type="text" name="usn" placeholder="Ex :  1PI10IS100" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}" value=<%=user.usn%> readonly><br>
+          <input required type="text" name="usn" placeholder="Ex :  1PI10IS100 (Upper Case)" class="form-control" pattern="[0-9][A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{3}" value=<%=user.usn%> readonly><br>
         </span>
          
         <label>Subject</label>
@@ -64,25 +80,66 @@
         <span class="user-input">
           <input required type="text" name="note_time" placeholder="<hh :>  mm : ss" class="form-control" pattern="([0-9]{2}[:])?([0-9]{2}:[0-9]{2})"><br>
         </span>
+        <label>Language</label>
+        <div class="select-style">
+          <select id = "language" name="language">
+            <option value="english" selected >English</option>
+            <option value="kannada">Kannada</option>
+            <option value="hindi">Hindi</option>
+            <option value="marathi">Marathi</option>
+            <option value="bengali">Bengali</option>
+            <option value="malayalam">Malayalam</option>
+            <option value="tamil">Tamil</option>
+            <option value="telugu">Telugu</option>
+            <option value="urdu">Urdu</option>
+            <option value="punjabi">Punjabi</option>
+            <option value="oriya">Oriya</option>
+            <option value="gujarati">Gujarati</option>
+            <option value="marwari">Marwari</option>
+            <option value="tulu">Tulu</option>
+            <option value="sanskrit">Sanskrit</option>
+            <option value="assamese">Assamese</option>
+            <option value="bodo">Bodo</option>
+            <option value="konkani">Konkani</option>
+            <option value="kashmiri">Kashmiri</option>
+
+          </select>
+        </div>
+        <script>
+              $("#language").html($("#language option").sort(function (a, b) {
+            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+              }));
+              $("select#language").val("english");
+        </script>
         <label>Note Type</label>
         <div class="select-style">
-          <select name="note_type">
+          <select name="note_type" onchange="setContentType()" id="note_type">
+            <option value="default">------Select------</option>
             <option value="elaboration">Elaboration</option>
-            <option value="translation">Translation</option>
-            <option value="supportive_content">Supportive Content</option>
+            <option value="fix_error">Fix an Error</option>
+            <option value="example">Give an Example</option>
+            <option value="ask_question">Ask a Question (Don't know the answer)</option>
+            <option value="mcq">MCQ</option>
           </select>
         </div>
         </span>
+        <span id="note_content" class="user-input" style="display:none">
         <label>Note Content</label>
-        <span class="user-input">
-          <textarea cols="48" rows="5" required id="notes" name="content" placeholder="Note Content" class="form-control"></textarea><br>
+          <textarea cols="48" rows="5" required id="notes" name="content" placeholder="Note Content" class="form-control"></textarea><br></span>
+        <span id="options" class="user-input" style="display:none">
+        <label>Choices</label>  
+        <input  type="text" id="option1" name="option1"  placeholder="Enter the Right Choice here" class="form-control"><br>
+        <input  type="text" id="option2" name="option2" class="form-control"><br>
+        <input  type="text" id="option3" name="option3" class="form-control"><br>  
+        <input  type="text" id="option4" name="option4" class="form-control" ><br></span> 
+        </span>
         <label>Reference Link</label>
         <span class="user-input">
           <input type="url" name="ext_links" placeholder="http://example.com" class="form-control"><br>
       </div>
-	    <span class="user-input">
+      <span class="user-input">
         <input required type="submit" class="btn btn-block btn-lg btn-success" value="Submit"/>
-	  </span>
+    </span>
     </form>
   </body>
 </html>

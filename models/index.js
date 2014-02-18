@@ -5,10 +5,10 @@
  * subject		: String
  * lec_no		: String
  * note_time	: String
+ * language     : String
  * note_type	: String
  * content		: String
  * ext_links	: String
- * ratings      : Object
 */
 
 var mongoose = require('mongoose');
@@ -20,14 +20,11 @@ var MicroNoteSchema = new Schema({
 	subject		: String,
 	lec_no		: String,
 	note_time	: String,
+    language    : String,
 	note_type	: String,
 	content		: String,
 	ext_links	: String,
-	datetime    : String,
-	ratings     : [{
-        usn : String,
-        rating : Number
-	}]
+	datetime    : String
 });
 
 var CommentSchema = new Schema({
@@ -76,38 +73,6 @@ exports.add_comment = function(entry, callback) {
     newcomment.save(callback);
 }
 
-exports.is_rated = function(note_id, usn) {
-    MicroNote.findById(note_id, function(err, note) {
-        if(err) {
-            return true;
-        }
-        else {
-            for(var i=0; i < note.ratings.length; i++) {
-                if (usn === note.ratings[i].usn) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    });
-}
-
-exports.rate_note = function(note_id, usn, rating, callback) {
-    MicroNote.findById(note_id, function(err, note) {
-        if(err) {
-            callback(err);
-        }
-        else {
-            var usrrating = {
-                usn : usn,
-                rating:rating
-            };
-            note.ratings.push(usrrating);
-            note.save(callback);
-        }
-    });
-}
-
 exports.get_comments = function(params, callback) {
     if(typeof(params) === 'undefined') {
         params = {};
@@ -123,11 +88,14 @@ exports.create = function(entry, Callback) {
 	newnote.subject = entry.subject.toUpperCase();
 	newnote.lec_no = entry.lec_no.toUpperCase();
 	newnote.note_time = entry.note_time.toUpperCase();
+    newnote.language = entry.language.toUpperCase();
 	newnote.note_type = entry.note_type.toUpperCase();
-	newnote.content = entry.content;
-	newnote.ext_links = entry.ext_links.toUpperCase();
+    if(newnote.note_type == "MCQ")
+	newnote.content = entry.content + "\n@$#\n" + entry.option1 + ',' + entry.option2 + ',' + entry.option3 + ',' + entry.option4 ;
+	else
+    newnote.content = entry.content;
+    newnote.ext_links = entry.ext_links.toUpperCase();
     newnote.datetime = getDateTime();
-    newnote.ratings = [];
 	newnote.save(Callback);
 };
 
