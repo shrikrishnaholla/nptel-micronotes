@@ -9,6 +9,7 @@
  * note_type	: String
  * content		: String
  * ext_links	: String
+ * ratings      : Object
 */
 
 var mongoose = require('mongoose');
@@ -24,7 +25,11 @@ var MicroNoteSchema = new Schema({
 	note_type	: String,
 	content		: String,
 	ext_links	: String,
-	datetime    : String
+	datetime    : String,
+   ratings     : [{
+        usn : String,
+        rating : Number
+   }]
 });
 
 var CommentSchema = new Schema({
@@ -82,6 +87,39 @@ exports.get_comments = function(params, callback) {
     });
 }
 
+exports.is_rated = function(note_id, usn) {
+    MicroNote.findById(note_id, function(err, note) {
+        if(err) {
+            return true;
+        }
+        else {
+            for(var i=0; i < note.ratings.length; i++) {
+                if (usn === note.ratings[i].usn) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    });
+}
+
+exports.rate_note = function(note_id, usn, rating, callback) {
+    MicroNote.findById(note_id, function(err, note) {
+        if(err) {
+            callback(err);
+        }
+        else {
+            var usrrating = {
+                usn : usn,
+                rating:rating
+            };
+            note.ratings.push(usrrating);
+            note.save(callback);
+        }
+    });
+}
+
+
 exports.create = function(entry, Callback) {
 	var newnote = new MicroNote();
 	newnote.usn = entry.usn.toUpperCase();
@@ -95,6 +133,7 @@ exports.create = function(entry, Callback) {
 	else
     newnote.content = entry.content;
     newnote.ext_links = entry.ext_links.toUpperCase();
+    newnote.ratings = [];
     newnote.datetime = getDateTime();
 	newnote.save(Callback);
 };
