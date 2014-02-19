@@ -26,10 +26,13 @@ var MicroNoteSchema = new Schema({
 	content		: String,
 	ext_links	: String,
 	datetime    : String,
-   ratings     : [{
+    ratings     : [{
         usn : String,
         rating : Number
-   }]
+    }],
+    
+    avg_rating : Number
+   
 });
 
 var CommentSchema = new Schema({
@@ -113,6 +116,7 @@ exports.rate_note = function(note_id, usn, rating, callback) {
                 usn : usn,
                 rating:rating
             };
+            note.avg_rating += ((note.ratings.length*note.avg_rating) + rating)/(note.ratings.length +1);
             note.ratings.push(usrrating);
             note.save(callback);
         }
@@ -134,6 +138,7 @@ exports.create = function(entry, Callback) {
     newnote.content = entry.content;
     newnote.ext_links = entry.ext_links.toUpperCase();
     newnote.ratings = [];
+    newnote.avg_rating = 0.0;
     newnote.datetime = getDateTime();
 	newnote.save(Callback);
 };

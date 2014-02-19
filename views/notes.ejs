@@ -78,7 +78,7 @@
                              #<%=notes[i].lec_no%>
                         </a> at <%=notes[i].note_time%>
                     </div>
-                    
+                    <p>Avg ratings : <%=notes[i].avg_rating%>
                     <% for(var j=0; j < notes[i].ratings.length; j++) {
                         var rating;
                         if(notes[i].ratings[j].usn === user.usn) {
