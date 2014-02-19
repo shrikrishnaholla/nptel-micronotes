@@ -72,10 +72,10 @@
             <div class="SpringGreen">
                 <div class="card" id="<%=notes[i]._id%>">
                     <span hidden class="note_id"><%=notes[i]._id%></span>
-                    <div class="title">
+                    <div class="title">Lecture: 
                         <a href="<%='http://nptel.ac.in/courses/' + notes[i].subject + '/' + notes[i].lec_no%>"
                             target="_blank">
-                            Lecture
+                             #<%=notes[i].lec_no%>
                         </a> at <%=notes[i].note_time%>
                     </div>
                     
