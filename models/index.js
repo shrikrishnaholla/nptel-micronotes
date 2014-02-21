@@ -19,17 +19,20 @@ var Schema = mongoose.Schema;
 var MicroNoteSchema = new Schema({
 	usn			: String,
 	subject		: String,
-	lec_no		: String,
+	lec_no		: Number,
 	note_time	: String,
     language    : String,
 	note_type	: String,
 	content		: String,
 	ext_links	: String,
 	datetime    : String,
-   ratings     : [{
+    ratings     : [{
         usn : String,
         rating : Number
-   }]
+    }],
+    
+    avg_rating : Number
+   
 });
 
 var CommentSchema = new Schema({
@@ -113,6 +116,7 @@ exports.rate_note = function(note_id, usn, rating, callback) {
                 usn : usn,
                 rating:rating
             };
+            note.avg_rating += ((note.ratings.length*note.avg_rating) + rating)/(note.ratings.length +1);
             note.ratings.push(usrrating);
             note.save(callback);
         }
@@ -124,7 +128,7 @@ exports.create = function(entry, Callback) {
 	var newnote = new MicroNote();
 	newnote.usn = entry.usn.toUpperCase();
 	newnote.subject = entry.subject.toUpperCase();
-	newnote.lec_no = entry.lec_no.toUpperCase();
+	newnote.lec_no = parseInt(entry.lec_no);
 	newnote.note_time = entry.note_time.toUpperCase();
     newnote.language = entry.language.toUpperCase();
 	newnote.note_type = entry.note_type.toUpperCase();
@@ -134,6 +138,7 @@ exports.create = function(entry, Callback) {
     newnote.content = entry.content;
     newnote.ext_links = entry.ext_links.toUpperCase();
     newnote.ratings = [];
+    newnote.avg_rating = 0.0;
     newnote.datetime = getDateTime();
 	newnote.save(Callback);
 };
@@ -142,7 +147,7 @@ exports.retrieve = function(options, Callback) {
 	if (typeof options === 'undefined') {
 		options = {};
 	}
-	MicroNote.find(options, function(err, docs) {
+	MicroNote.find(options).sort({lec_no:-1}).exec(function(err, docs) {
 		Callback(err, docs);
 	});
 };

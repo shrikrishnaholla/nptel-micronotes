@@ -3,9 +3,10 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/>
     <link rel="stylesheet" type="text/css" href="stylesheets/colors.css"/>
     <style type="text/css">
-            .rating {
+        .rating {
           unicode-bidi: bidi-override;
           direction: rtl;
+          margin-bottom:15px;
         }
         .rating > span {
           display: inline-block;
@@ -72,13 +73,13 @@
             <div class="SpringGreen">
                 <div class="card" id="<%=notes[i]._id%>">
                     <span hidden class="note_id"><%=notes[i]._id%></span>
-                    <div class="title">
+                    <div class="title" style="display:inline-block;">Lecture: 
                         <a href="<%='http://nptel.ac.in/courses/' + notes[i].subject + '/' + notes[i].lec_no%>"
                             target="_blank">
-                            Lecture
+                             #<%=notes[i].lec_no%>
                         </a> at <%=notes[i].note_time%>
                     </div>
-                    
+                    <div style="float:right">Avg ratings : <%=notes[i].avg_rating%></div><br/>
                     <% for(var j=0; j < notes[i].ratings.length; j++) {
                         var rating;
                         if(notes[i].ratings[j].usn === user.usn) {
@@ -94,9 +95,9 @@
                         </div>
                         
                     <%} else { %>
-                         <p>Rate this note</p>
+                         
                          <div class="rating">
-
+                            <div>Rate this note</div>
                             <span id="5" onclick="rate()">☆</span>
                             <span id="4" onclick="rate()">☆</span>
                             <span id="3" onclick="rate()">☆</span>
@@ -105,7 +106,7 @@
 
                         </div>
                     <%}%>
-                    </span>
+
                     <a class="discuss" href=<%='/view_note?_id='+notes[i]._id%>>Discuss</a>
                     <div class="content">
                         <%=notes[i].content%>
