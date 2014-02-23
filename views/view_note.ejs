@@ -30,28 +30,56 @@
 <body>
 
     <div class="bar">
-        <div class="user">Welcome, <%=user.name%></div>
-        <span id="userusn" style="display:none;"><%=user.usn%></div>
+        
+        <span id="userusn" style="display:none;"><%=user.usn%></span>
+        <a class="user" href="/home">Home</a>
     </div>
     
-    <div class="cards">
-        <div class="container">        
-            <div class="SpringGreen">
-                <div class="card">
-                    <span id="pid" hidden><%=note[0]._id%></span>
-                    <div class="title">
-                        <a href="<%='http://nptel.ac.in/courses/' + note[0].subject + '/' + note[0].lec_no%>"
-                            target="_blank">
-                            Lecture
-                        </a> at <%=note[0].note_time%>
-                        <a href=<%='/view_note?_id='+note[0]._id%>>View note</a>
+    
+
+    <div class="container">        
+        <div class="SpringGreen">
+            <div class="card" id="<%=note._id%>">
+                <span hidden class="note_id"><%=note._id%></span>
+                <div class="title" style="display:inline-block;">Lecture: 
+                    <a href="<%='http://nptel.ac.in/courses/' + note.subject + '/' + note.lec_no%>"
+                        target="_blank">
+                         #<%=note.lec_no%>
+                    </a> by <%=note.usn%>
+                </div>
+                <div style="float:right">Avg ratings : <%=note.avg_rating%></div><br/>
+                <% for(var j=0; j < note.ratings.length; j++) {
+                    var rating;
+                    if(note.ratings[j].usn === user.usn) {
+                        rating = note.ratings[j].rating;
+                    }
+                    }
+                %>
+                <% if(typeof(rating) !== 'undefined') {%>
+                <div class="ratednotes">
+                    <%for (var k =0 ; k< rating; k++) {%>
+                    <span>☆</span>
+                    <%}%>
                     </div>
-                    <div class="content">
-                        <%=note[0].content%>
-                        <% if(note[0].ext_links) { %>
-                            <br/> <a href="<%=note[0].ext_links%>"><%=note[0].ext_links%></a>
-                        <%}%>
+                    
+                <%} else { %>
+                     
+                     <div class="rating">
+                        <div>Rate this note</div>
+                        <span id="5" onclick="rate()">☆</span>
+                        <span id="4" onclick="rate()">☆</span>
+                        <span id="3" onclick="rate()">☆</span>
+                        <span id="2" onclick="rate()">☆</span>
+                        <span id="1" onclick="rate()">☆</span>
+
                     </div>
+                <%}%>
+
+                <div class="content">
+                    <%=note.content%>
+                    <% if(note.ext_links) { %>
+                        <br/> <a href="<%=note.ext_links%>" target="_blank"><%=note.ext_links%></a>
+                    <%}%>
                 </div>
             </div>
         </div>

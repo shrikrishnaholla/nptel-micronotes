@@ -18,6 +18,12 @@ textarea {
     font-family: 'Open Sans', sans-serif;
 }
 
+.bar {
+  padding-left: 25%;
+}
+
+
+
 .container {
     height:auto;
     width: 100%;
@@ -25,6 +31,8 @@ textarea {
     display: block;
     position: relative;
     background: transparent;
+    margin-top: 70px;
+    margin-left: 0px;
 }
 
 .comments { margin-top: 5px; width:96%; display: block; position: relative; font-family: 'Open Sans', sans-serif; font-size: 100%; }

@@ -151,3 +151,30 @@ a.title {
     border-radius: 5px 5px;
     box-shadow: inset 0 1px 1px 1px rgba(0,0,0,0.3);
 }
+
+.rating {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin-bottom:15px;
+}
+.rating > span {
+  display: inline-block;
+  position: relative;
+  width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+   content: "\2605";
+   position: absolute;
+}
+.ratednotes {
+    unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.ratednotes > span {           
+  display: inline-block;
+  position: relative;
+  content : "\2605";
+  width: 1.2em;
+  color:gold;
+}

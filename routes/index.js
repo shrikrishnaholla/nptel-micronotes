@@ -81,7 +81,7 @@ exports.view_note = function(req, res) {
                         res.send(500);
                     }
                     else {
-                        res.render('view_note', {user:req.session.user, note:note, comments:cmnts});
+                        res.render('view_note', {user:req.session.user, note:note[0], comments:cmnts});
                     }
                 });
             }
