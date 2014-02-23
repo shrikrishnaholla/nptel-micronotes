@@ -21,7 +21,7 @@ $(function() {
 
   $('.download').click(function(event) {
   	event.preventDefault();
-  	var selected = $('.ui-selected span');
+  	var selected = $('.ui-selected .note_id');
   	var ids = [];
   	selected.each(function(index, value) {
   		ids.push(value.innerHTML);
