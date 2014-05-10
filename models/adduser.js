@@ -91,7 +91,7 @@ exports.add = function (details , callback) {
                         callback({'failed':'true','reason':err});
                     }
                     else {
-                        callback({'failed':false,'reason':''});
+                        callback();
                     }
                 });
         }

@@ -1,0 +1,138 @@
+<html>
+<head>
+    <!-- <link rel="stylesheet" type="text/css" href="stylesheets/notes.css"/> -->
+    <link rel="stylesheet" type="text/css" media="all" href="stylesheets/comments.css" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/colors.css"/>
+    
+</head>
+<script type="text/javascript">
+    function submitcmnt() {
+        $.ajax({
+            method : 'post',
+            url : 'add_comment',
+            data : {
+                p_id : $('#pid').text(),
+                content : $('#content').val(),
+                usn : $('#userusn').text(),
+                emaild : $('#emailid').val()
+                },
+            success : function(data) {
+                location.reload();
+            },
+            failure : function() {
+                alert('submission failed');
+            }
+        });
+    }
+</script>
+<script type="text/javascript" src="javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="javascripts/jcs.js"></script>
+<body>
+
+    <div class="bar">
+        
+        <span id="userusn" style="display:none;"><%=user.usn%></span>
+        <a class="user" href="/home">Home</a>
+    </div>
+    
+    
+
+    <div class="container">        
+        <div class="SpringGreen">
+            <div class="card" id="<%=note._id%>">
+                <span hidden class="note_id"><%=note._id%></span>
+                <div class="title" style="display:inline-block;">Lecture: 
+                    <a href="<%='http://nptel.ac.in/courses/' + note.subject + '/' + note.lec_no%>"
+                        target="_blank">
+                         #<%=note.lec_no%>
+                    </a> by <%=note.usn%>
+                </div>
+                <div style="float:right">Avg ratings : <%=note.avg_rating%></div><br/>
+                <% for(var j=0; j < note.ratings.length; j++) {
+                    var rating;
+                    if(note.ratings[j].usn === user.usn) {
+                        rating = note.ratings[j].rating;
+                    }
+                    }
+                %>
+                <% if(typeof(rating) !== 'undefined') {%>
+                <div class="ratednotes">
+                    <%for (var k =0 ; k< rating; k++) {%>
+                    <span>☆</span>
+                    <%}%>
+                    </div>
+                    
+                <%} else { %>
+                     
+                     <div class="rating">
+                        <div>Rate this note</div>
+                        <span id="5" onclick="rate()">☆</span>
+                        <span id="4" onclick="rate()">☆</span>
+                        <span id="3" onclick="rate()">☆</span>
+                        <span id="2" onclick="rate()">☆</span>
+                        <span id="1" onclick="rate()">☆</span>
+
+                    </div>
+                <%}%>
+
+                <div class="content">
+                    <%=note.content%>
+                    <% if(note.ext_links) { %>
+                        <br/> <a href="<%=note.ext_links%>" target="_blank"><%=note.ext_links%></a>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
+    <div class="cards">
+    <div class="container">
+    <% for(var i=0; i<comments.length; i++) {%>
+        <div class="container">        
+            <div class="SpringGreen">
+                <div class="card">
+                    <span hidden><%=comments[i]._id%></span>
+                    <span class="author"><%=comments[i].author%></span>
+                    <div class="content">
+                        <%=comments[i].content%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+-->
+<!-- Comments section begins -->
+<div class="comments">
+<% for(var i=0; i<comments.length; i++) {%>
+    <div class="comment-thread">
+        <div class="comment-block" id="<%=comments[i]._id%>">
+            <span hidden><%=comments[i]._id%></span>
+            <p class="comment-top-meta">
+                <span class="comment-top-content">
+                <strong><%=comments[i].author%></strong> 
+                <span>posted at <%=comments[i].datetime%></span>
+                </span>
+            </p>
+            
+            <div class="comment-content">
+                <p class="the-comment-post"><%=comments[i].content%></p>
+                
+                
+               
+            </div>
+        </div>
+    </div>
+<% } %>
+    <p class="comment-reply-options"><a class="option-reply">Reply</a></p>
+    <div class="showhidecommform">&nbsp;</div>
+</div>
+
+<!-- Comments section ends -->
+    
+    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+    <script type='text/javascript' src="javascripts/jquery.appear.js"></script>
+    <script type='text/javascript' src="javascripts/jquery-ui.js"></script>
+    <script type='text/javascript' src="javascripts/jquery-filedownload.js"></script>
+    <script type='text/javascript' src="javascripts/notes.js"></script>
+    </body>
+    </html>

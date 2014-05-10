@@ -5,25 +5,44 @@
  * subject		: String
  * lec_no		: String
  * note_time	: String
+ * language     : String
  * note_type	: String
  * content		: String
  * ext_links	: String
+ * ratings      : Object
 */
 
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/micronotes');
 var Schema = mongoose.Schema;
 
 var MicroNoteSchema = new Schema({
 	usn			: String,
 	subject		: String,
-	lec_no		: String,
+	lec_no		: Number,
 	note_time	: String,
+    language    : String,
 	note_type	: String,
 	content		: String,
 	ext_links	: String,
-	datetime    : String
+	datetime    : String,
+    ratings     : [{
+        usn : String,
+        rating : Number
+    }],
+    
+    avg_rating : Number
+   
 });
+
+var CommentSchema = new Schema({
+    author    : String,
+    datetime  : String,
+    parent_id : String,
+    content   : String,
+    emailid   : String
+});
+
 function getDateTime() {
 
     var date = new Date();
@@ -49,16 +68,77 @@ function getDateTime() {
 
 }
 var MicroNote = mongoose.model('MicroNotes', MicroNoteSchema);
+var Comment   = mongoose.model('Comments', CommentSchema);
+
+exports.add_comment = function(entry, callback) {
+    var newcomment = new Comment();
+    console.log(entry);
+    newcomment.author = entry.usn.toUpperCase();
+    newcomment.emailid = entry.emailid;
+    newcomment.parent_id = entry.p_id;
+    newcomment.content = entry.content;
+    newcomment.datetime = getDateTime();
+    newcomment.save(callback);
+}
+
+exports.get_comments = function(params, callback) {
+    if(typeof(params) === 'undefined') {
+        params = {};
+    }
+    Comment.find(params, function(err, cmnts) {
+        callback(err, cmnts);
+    });
+}
+
+exports.is_rated = function(note_id, usn) {
+    MicroNote.findById(note_id, function(err, note) {
+        if(err) {
+            return true;
+        }
+        else {
+            for(var i=0; i < note.ratings.length; i++) {
+                if (usn === note.ratings[i].usn) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    });
+}
+
+exports.rate_note = function(note_id, usn, rating, callback) {
+    MicroNote.findById(note_id, function(err, note) {
+        if(err) {
+            callback(err);
+        }
+        else {
+            var usrrating = {
+                usn : usn,
+                rating:rating
+            };
+            note.avg_rating += ((note.ratings.length*note.avg_rating) + rating)/(note.ratings.length +1);
+            note.ratings.push(usrrating);
+            note.save(callback);
+        }
+    });
+}
+
 
 exports.create = function(entry, Callback) {
 	var newnote = new MicroNote();
 	newnote.usn = entry.usn.toUpperCase();
 	newnote.subject = entry.subject.toUpperCase();
-	newnote.lec_no = entry.lec_no.toUpperCase();
+	newnote.lec_no = parseInt(entry.lec_no);
 	newnote.note_time = entry.note_time.toUpperCase();
+    newnote.language = entry.language.toUpperCase();
 	newnote.note_type = entry.note_type.toUpperCase();
-	newnote.content = entry.content;
-	newnote.ext_links = entry.ext_links.toUpperCase();
+    if(newnote.note_type == "MCQ")
+	newnote.content = entry.content + "\n@$#\n" + entry.option1 + ',' + entry.option2 + ',' + entry.option3 + ',' + entry.option4 ;
+	else
+    newnote.content = entry.content;
+    newnote.ext_links = entry.ext_links.toUpperCase();
+    newnote.ratings = [];
+    newnote.avg_rating = 0.0;
     newnote.datetime = getDateTime();
 	newnote.save(Callback);
 };
@@ -66,12 +146,12 @@ exports.create = function(entry, Callback) {
 exports.retrieve = function(options, Callback) {
 	if (typeof options === 'undefined') {
 		options = {};
-	};
-	MicroNote.find(options, function(err, docs) {
+	}
+	MicroNote.find(options).sort({lec_no:-1}).exec(function(err, docs) {
 		Callback(err, docs);
 	});
 };
-
 exports.sendlogin = function(enrty, Callback) {
     var email = enrty.email;
 }
+
